@@ -204,7 +204,7 @@ public class XWalkCordovaResourceClient extends XWalkResourceClient {
                 return new WebResourceResponse("text/plain", "UTF-8", null);
             }
 
-            CordovaResourceApi resourceApi = parentEngine.resourceApi;
+            CordovaResourceApi resourceApi = parentEngine.getResourceApi();
             Uri origUri = Uri.parse(url);
             // Allow plugins to intercept WebView requests.
             Uri remappedUri = resourceApi.remapUri(origUri);

@@ -40,17 +40,13 @@ import org.xwalk.core.XWalkView;
  * @see <a href="http://developer.android.com/guide/webapps/webView.html">WebView guide</a>
  * @see <a href="http://developer.android.com/reference/android/webkit/WebView.html">WebView</a>
  */
-public class XWalkWebViewEngine implements CordovaWebViewEngine {
+public class XWalkWebViewEngine extends CordovaWebViewEngine {
 
     public static final String TAG = "XWalkWebViewEngine";
 
     protected XWalkCordovaView webView;
     protected XWalkCordovaCookieManager cookieManager;
-    protected CordovaInterface cordova;
     protected CordovaBridge bridge;
-    protected PluginManager pluginManager;
-    protected CordovaResourceApi resourceApi;
-    protected CordovaPreferences preferences;
     protected Client client;
     String loadedUrl;
 
@@ -59,6 +55,7 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
     }
 
     public XWalkWebViewEngine(XWalkCordovaView webView) {
+        super(webView);
         this.webView = webView;
         cookieManager = new XWalkCordovaCookieManager();
     }
@@ -66,17 +63,8 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
     // Use two-phase init so that the control will work with XML layouts.
 
     @Override
-    public void init(CordovaInterface cordova, Client client,
-                     CordovaPreferences preferences, CordovaResourceApi resourceApi,
-                     PluginManager pluginManager, NativeToJsMessageQueue nativeToJsMessageQueue) {
-        if (this.cordova != null) {
-            throw new IllegalStateException();
-        }
-        this.cordova = cordova;
+    protected void init(Client client) {
         this.client = client;
-        this.preferences = preferences;
-        this.resourceApi = resourceApi;
-        this.pluginManager = pluginManager;
         webView.init(this);
 
         initWebViewSettings();
@@ -147,11 +135,6 @@ public class XWalkWebViewEngine implements CordovaWebViewEngine {
     @Override
     public void clearHistory() {
     	this.webView.getNavigationHistory().clear();
-    }
-
-	@Override
-    public View getView() {
-    	return this.webView;
     }
 
     @Override

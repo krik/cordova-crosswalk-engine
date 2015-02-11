@@ -178,7 +178,7 @@ public class XWalkCordovaUiClient extends XWalkUIClient {
         i.setType("*/*"); // TODO: wire this to acceptType.
         Intent intent = Intent.createChooser(i, "File Browser");
         try {
-            parentEngine.cordova.startActivityForResult(new CordovaPlugin() {
+            parentEngine.getCordovaInterface().startActivityForResult(new CordovaPlugin() {
                 @Override
                 public void onActivityResult(int requestCode, int resultCode, Intent intent) {
                     Uri result = intent == null || resultCode != Activity.RESULT_OK ? null : intent.getData();

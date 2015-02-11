@@ -11,7 +11,10 @@ import android.content.pm.PackageManager;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 
-public class XWalkCordovaView extends XWalkView {
+import org.apache.cordova.CordovaWebView;
+import org.apache.cordova.CordovaWebViewEngine;
+
+public class XWalkCordovaView extends XWalkView implements CordovaWebViewEngine.EngineView {
     protected XWalkCordovaResourceClient resourceClient;
     protected XWalkCordovaUiClient uiClient;
     protected XWalkWebViewEngine parentEngine;
@@ -97,5 +100,10 @@ public class XWalkCordovaView extends XWalkView {
 
     public void pauseTimersForReal() {
         super.pauseTimers();
+    }
+
+    @Override
+    public CordovaWebView getCordovaWebView() {
+        return parentEngine == null ? null : parentEngine.getCordovaWebView();
     }
 }
